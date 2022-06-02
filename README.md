@@ -18,5 +18,6 @@
 
 ## 待办 todo
 - 添加 @Swagger 支持
+- 环境变量优先级 比如nacos 中获取、配置中心获取 等等途径 如何排查优先级？
 
 > 更多[汪小哥](https://wangji.blog.csdn.net/)
