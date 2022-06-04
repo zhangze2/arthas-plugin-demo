@@ -1,6 +1,8 @@
 package com.wangji92.arthas.plugin.demo.controller;
 
 import com.wangji92.arthas.plugin.demo.service.ArthasTestService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -19,6 +21,7 @@ import java.util.Random;
  * @author 汪小哥
  * @date 28-03-2020
  */
+@Api(value = "常见Demo", description = "Ognl 表达式 API", position = 100, protocols = "http")
 @Controller
 @RequestMapping("/")
 @Slf4j
@@ -38,11 +41,18 @@ public class CommonController {
     private String             watchValue         = "wangji";
 
     /**
-     * https://github.com/alibaba/arthas/issues/71  fastjson 转换复杂对象进行调用
+     * https://github.com/alibaba/arthas/issues/71  fastjson 复杂参数调用 使用Json 转换为具体的类信息
      * vmtool -x 3 --action getInstances --className com.wangji92.arthas.plugin.demo.controller.CommonController  --express 'instances[0].userFastJson(@com.alibaba.fastjson.JSON@parseObject("{\"name\":\"name\",\"age\":18}",@com.wangji92.arthas.plugin.demo.controller.User@class))'  -c 888b915
      * @param user
      * @return
      */
+    @ApiOperation(
+            value = "userFastJson",
+            notes = "复杂参数调用 使用Json 转换为具体的类信息：" +
+                    "vmtool -x 3 --action getInstances --className com.wangji92.arthas.plugin.demo.controller.CommonController  --express 'instances[0].userFastJson(@com.alibaba.fastjson.JSON@parseObject(\"{\\\"name\\\":\\\"name\\\",\\\"age\\\":18}\",@com.wangji92.arthas.plugin.demo.controller.User@class))'  -c 888b915",
+            produces="application/json, application/xml",
+            consumes="application/json, application/xml",
+            response = Object.class)
     @PostMapping("/userFastJson")
     @ResponseBody
     public Object userFastJson(@RequestBody User user) {
@@ -124,7 +134,8 @@ public class CommonController {
     }
 
     /**
-     * 环境变量优先级问题排查 目前只支持获取静态static spring context 获取所有的环境变量 按照优先级排序 ognl -x 3
+     * 功能：环境变量优先级问题排查
+     * 目前只支持获取静态static spring context 获取所有的环境变量 按照优先级排序 ognl -x 3
      * '#springContext=@com.wangji92.arthas.plugin.demo.common.ApplicationContextProvider@context,#allProperties={},#standardServletEnvironment=#propertySourceIterator=#springContext.getEnvironment(),#propertySourceIterator=#standardServletEnvironment.getPropertySources().iterator(),#propertySourceIterator.{#key=#this.getName(),#allProperties.add("
      * "),#allProperties.add("------------------------- name:"+#key),#this.getSource() instanceof java.util.Map
      * ?#this.getSource().entrySet().iterator.{#key=#this.key,#allProperties.add(#key+"="+#standardServletEnvironment.getProperty(#key))}:#{}},#allProperties'

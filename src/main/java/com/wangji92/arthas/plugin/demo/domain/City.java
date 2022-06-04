@@ -8,22 +8,42 @@
  */
 package com.wangji92.arthas.plugin.demo.domain;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 
 /**
  * @author Eddú Meléndez
  */
+@ApiModel("城市信息表")
 public class City implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long              id;
+    /**
+     * 编号
+     */
+    @ApiModelProperty("编号")
+    private Long id;
 
-    private String            name;
+    /**
+     * 城市名
+     */
+    @ApiModelProperty("城市名")
+    private String name;
 
-    private String            state;
+    /**
+     * 状态
+     */
+    @ApiModelProperty("状态")
+    private String state;
 
-    private String            country;
+    /**
+     * 国家
+     */
+    @ApiModelProperty("国家")
+    private String country;
 
     public Long getId() {
         return this.id;

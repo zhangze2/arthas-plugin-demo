@@ -1,5 +1,6 @@
 package com.wangji92.arthas.plugin.demo.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -12,6 +13,7 @@ import java.util.Map;
  * @author 汪小哥
  * @date 28-03-2020
  */
+@Api(value = "StaticTest Demo", description = "StaticTest API", position = 100, protocols = "http")
 @Component
 public class StaticTest {
 
