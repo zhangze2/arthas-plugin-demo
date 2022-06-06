@@ -60,7 +60,13 @@ public class CommonController {
         return user;
     }
 
-    @RequestMapping("/userOgnlX")
+    @ApiOperation(
+            value = "userOgnlX",
+            notes = "userOgnlX：",
+            produces="application/json, application/xml",
+            consumes="application/json, application/xml",
+            response = Object.class)
+    @GetMapping("/userOgnlX")
     @ResponseBody
     public Object userOgnlX() {
         User user = new User();
@@ -89,7 +95,11 @@ public class CommonController {
      *
      * @return
      */
-    @RequestMapping("/getRandomInteger")
+    @ApiOperation(
+            value = "getRandomInteger",
+            notes = "getRandomInteger：",
+            response = Object.class)
+    @GetMapping("/getRandomInteger")
     @ResponseBody
     public Integer getRandomInteger() {
         return new Random().nextInt(1000);
@@ -108,7 +118,7 @@ public class CommonController {
      * @param name
      * @return
      */
-    @RequestMapping("/trace/{name}")
+    @PostMapping("/trace/{name}")
     @ResponseBody
     public String traceE(@PathVariable String name) {
         if (StringUtils.isEmpty(name)) {
@@ -126,7 +136,7 @@ public class CommonController {
      *
      * @return
      */
-    @RequestMapping("traceException")
+    @GetMapping("traceException")
     @ResponseBody
     public String traceException() {
         arthasTestService.traceException(1);
@@ -147,7 +157,7 @@ public class CommonController {
      *
      * @return
      */
-    @RequestMapping("environmentPriority")
+    @GetMapping("environmentPriority")
     @ResponseBody
     public String environmentPriority() {
         return applicationContext.getEnvironment().getProperty("custom.name");
@@ -168,7 +178,7 @@ public class CommonController {
      *
      * @return
      */
-    @RequestMapping("complexParameterCall")
+    @PostMapping("complexParameterCall")
     @ResponseBody
     public String complexParameterCall(@RequestBody Map<String, User> names) {
         if (names == null) {
@@ -190,7 +200,7 @@ public class CommonController {
      *
      * @return
      */
-    @RequestMapping("watchField")
+    @GetMapping("watchField")
     @ResponseBody
     public String watchField() {
         return StaticTest.getInvokeStaticName();
@@ -203,13 +213,13 @@ public class CommonController {
      *
      * @return
      */
-    @RequestMapping("watchNoStaticField")
+    @GetMapping("watchNoStaticField")
     @ResponseBody
     public String watchNoStaticField() {
         return staticTest.getFieldValue();
     }
 
-    @RequestMapping("AnonymousClass")
+    @GetMapping("AnonymousClass")
     @ResponseBody
     public String anonymousClass() {
         Runnable x = new Runnable() {
@@ -223,7 +233,7 @@ public class CommonController {
         return "ok";
     }
 
-    @RequestMapping("innerAnonymousClass")
+    @GetMapping("innerAnonymousClass")
     @ResponseBody
     public String innerAnonymousClass() {
         OuterClass.InnerClass innerClass = new OuterClass().new InnerClass();
@@ -243,7 +253,7 @@ public class CommonController {
      * @param testEnum
      * @return
      */
-    @RequestMapping("testEnum")
+    @PostMapping("testEnum")
     @ResponseBody
     public String testEnum(TestEnum testEnum) {
         if (testEnum != null) {
@@ -256,7 +266,7 @@ public class CommonController {
      * check head
      * @return
      */
-    @RequestMapping("checkHead")
+    @GetMapping("checkHead")
     @ResponseBody
     public String checkHead() {
 
