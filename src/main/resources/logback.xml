@@ -6,7 +6,7 @@
             <fileNamePattern>mylog-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>
             <maxHistory>60</maxHistory>
-            <totalSizeCap>2GB</totalSizeCap>
+            <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>
         <encoder>
             <pattern>%logger{35} - %msg%n</pattern>
@@ -19,7 +19,7 @@
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n
+            <pattern>@ %d{yyyy-MM-dd HH:mm:ss.SSS} %contextName ${APP_NAME} %-4relative [%thread] %-5level %logger{35} - %msg %n
             </pattern>
             <charset>utf8</charset>
         </encoder>
