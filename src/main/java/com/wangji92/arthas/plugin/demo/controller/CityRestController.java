@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/cities")
-@Api(value = "CityRestController", description = "CityRestController API", position = 100, protocols = "http")
+@Api(value = "CityRestController",  protocols = "http")
 @RestController
 public class CityRestController {
 
