@@ -13,7 +13,7 @@ import java.util.Map;
  * @author 汪小哥
  * @date 28-03-2020
  */
-@Api(value = "StaticTest Demo", description = "StaticTest API", position = 100, protocols = "http")
+@Api(value = "StaticTest Demo",  protocols = "http")
 @Component
 public class StaticTest {
 
@@ -62,9 +62,9 @@ public class StaticTest {
     }
 
     /**
-     * 调用方法
+     * 调用静态方法，返回静态字段值
      *
-     * @return
+     * @return String
      */
     public static String getInvokeStaticName() {
         return INVOKE_STATIC_NAME;

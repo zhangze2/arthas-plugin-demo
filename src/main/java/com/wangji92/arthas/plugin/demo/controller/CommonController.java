@@ -30,8 +30,6 @@ public class CommonController {
     @Autowired
     private ArthasTestService  arthasTestService;
 
-    @Autowired
-    private ApplicationContext applicationContext;
 
     @Autowired
     private StaticTest         staticTest;
@@ -42,7 +40,7 @@ public class CommonController {
 
     /**
      * https://github.com/alibaba/arthas/issues/71  fastjson 复杂参数调用 使用Json 转换为具体的类信息
-     * vmtool -x 3 --action getInstances --className com.wangji92.arthas.plugin.demo.controller.CommonController  --express 'instances[0].userFastJson(@com.alibaba.fastjson.JSON@parseObject("{\"name\":\"name\",\"age\":18}",@com.wangji92.arthas.plugin.demo.controller.User@class))'  -c 888b915
+     * vmtool -x 3 --action getInstances --className com.wangji92.arthas.plugin.demo.controller.CommonController  --express 'instances[0].userFastJson(@com.alibaba.fastjson.JSON@parseObject("{\"name\":\"name\",\"age\":18}",@com.wangji92.arthas.plugin.demo.controller.User@class))'  -c 799af39e
      * @param user
      * @return
      */
@@ -86,18 +84,18 @@ public class CommonController {
     }
 
     /**
+     * 随机返回 1000 以内的整数
      * tt 测试 or 通过ognl 调用spring context getBean 调用处理 ognl -x 3
      * '#springContext=@com.wangji92.arthas.plugin.demo.common.ApplicationContextProvider@context,#springContext.getBean("commonController").getRandomInteger()'
      * -c e374b99
      * <p>
      * 记录时间隧道，重新触发一次 tt -t com.wangji92.arthas.plugin.demo.controller.CommonController getRandomInteger -n 5 tt -p -i
-     * 1000
      *
      * @return
      */
     @ApiOperation(
             value = "getRandomInteger",
-            notes = "getRandomInteger：",
+            notes = "getRandomInteger：随机返回 1000 以内的整数",
             response = Object.class)
     @GetMapping("/getRandomInteger")
     @ResponseBody
@@ -143,25 +141,7 @@ public class CommonController {
         return "ok";
     }
 
-    /**
-     * 功能：环境变量优先级问题排查
-     * 目前只支持获取静态static spring context 获取所有的环境变量 按照优先级排序 ognl -x 3
-     * '#springContext=@com.wangji92.arthas.plugin.demo.common.ApplicationContextProvider@context,#allProperties={},#standardServletEnvironment=#propertySourceIterator=#springContext.getEnvironment(),#propertySourceIterator=#standardServletEnvironment.getPropertySources().iterator(),#propertySourceIterator.{#key=#this.getName(),#allProperties.add("
-     * "),#allProperties.add("------------------------- name:"+#key),#this.getSource() instanceof java.util.Map
-     * ?#this.getSource().entrySet().iterator.{#key=#this.key,#allProperties.add(#key+"="+#standardServletEnvironment.getProperty(#key))}:#{}},#allProperties'
-     * -c e374b99
-     * <p>
-     * 选中 custom.name 获取当前的变量的信息 ognl -x 3
-     * '#springContext=@com.wangji92.arthas.plugin.demo.common.ApplicationContextProvider@context,#springContext.getEnvironment().getProperty("custom.name")'
-     * -c e374b99
-     *
-     * @return
-     */
-    @GetMapping("environmentPriority")
-    @ResponseBody
-    public String environmentPriority() {
-        return applicationContext.getEnvironment().getProperty("custom.name");
-    }
+
 
     /**
      * 复杂参数调用 场景 static spring context ognl -x 3 '#user=new
@@ -188,15 +168,16 @@ public class CommonController {
     }
 
     /**
-     * 1、将光标放置在需要观察的值的字段上面 比如下面的这个获取静态字段的值,无论是静态字段还是实例字段都是可以支持的！ watch
-     * com.wangji92.arthas.plugin.demo.controller.StaticTest *
+     * 1、将光标放置在需要观察的值的字段上面 比如下面的这个获取静态字段的值,无论是静态字段还是实例字段都是可以支持的！
+     * watch com.wangji92.arthas.plugin.demo.controller.StaticTest *
      * '{params,returnObj,throwExp,@com.wangji92.arthas.plugin.demo.controller.StaticTest@INVOKE_STATIC_LONG}' -n 5 -x 3
      * '1==1'
      * <p>
      * watch com.wangji92.arthas.plugin.demo.controller.CommonController *
      * '{params,returnObj,throwExp,target.arthasTestService}' -n 5 -x 3 '1==1'
      * <p>
-     * 2、触发一下这个类的某个方法的调用 eg: 比如这里调用这个 http://localhost:8080/watchField 3、即可查看到具体的信息
+     * 2、触发一下这个类的某个方法的调用 eg: 比如这里调用这个 http://localhost:8080/watchField
+     * 3、即可查看到具体的信息
      *
      * @return
      */
@@ -219,6 +200,9 @@ public class CommonController {
         return staticTest.getFieldValue();
     }
 
+    /**
+     * 匿名类
+     * */
     @GetMapping("AnonymousClass")
     @ResponseBody
     public String anonymousClass() {

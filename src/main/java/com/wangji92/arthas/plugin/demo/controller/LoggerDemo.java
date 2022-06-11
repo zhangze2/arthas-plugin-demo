@@ -17,9 +17,9 @@ public class LoggerDemo {
     /**
      *
      * logger --name com.wangji92.arthas.plugin.demo.controller.LoggerDemo --level trace -c 18b4aac2
-     * 第一次延迟1秒后执行，之后按fixedRate的规则每5秒执行一次
+     * 第一次延迟1秒后执行，之后按fixedRate的规则每 60 秒执行一次
      */
-    @Scheduled(initialDelay=1000, fixedRate=5000)
+    @Scheduled(initialDelay=1000, fixedRate=60000)
     public void sample() {
         log.trace("....trace");
         log.debug("......debug");
